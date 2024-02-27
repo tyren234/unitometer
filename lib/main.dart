@@ -14,20 +14,104 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Unitometer',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Unitometer'),
+      home: const PageLoader(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class PageLoader extends StatefulWidget {
+  const PageLoader({super.key});
 
-  final String title;
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: MyHomePage(),
+    );
+  }
+
+  @override
+  State<StatefulWidget> createState() => _PageLoaderState();
+}
+
+class _PageLoaderState extends State<PageLoader> {
+  int selectedIndex = 0;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState!.openDrawer();
+  }
+
+  void _closeDrawer() {
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = const MyHomePage();
+      case 1:
+        page = const SettingsPage();
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text("Unitometer"),
+      ),
+      drawer: NavigationDrawer(
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (value) {
+          setState(() {
+            selectedIndex = value;
+          });
+          _closeDrawer();
+        },
+        children: const [
+          NavigationDrawerDestination(
+            icon: Icon(Icons.home),
+            label: Text('Home'),
+          ),
+          NavigationDrawerDestination(
+            icon: Icon(Icons.settings),
+            label: Text('Settings'),
+          ),
+        ],
+      ),
+      body: Row(
+        children: [
+          Expanded(
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: page, // ← Here.
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text("Hey");
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -68,10 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -103,7 +183,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
