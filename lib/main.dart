@@ -10,13 +10,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static var colors = [
+    ColorScheme.fromSeed(seedColor: Colors.red),
+    ColorScheme.fromSeed(seedColor: Colors.green),
+    ColorScheme.fromSeed(seedColor: Colors.blue),
+  ];
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Unitometer',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: colors[2],
         useMaterial3: true,
       ),
       home: const PageLoader(),
@@ -65,7 +71,10 @@ class _PageLoaderState extends State<PageLoader> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
         title: const Text("Unitometer"),
       ),
       drawer: NavigationDrawer(
@@ -91,7 +100,10 @@ class _PageLoaderState extends State<PageLoader> {
         children: [
           Expanded(
             child: Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .primaryContainer,
               child: page, // ← Here.
             ),
           ),
@@ -165,17 +177,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyMedium,
                         children: [
                           const TextSpan(
                             text:
-                                "Enter volume and it's price to display price per different popular volumes.\n\n",
+                            "Enter volume and it's price to display price per different popular volumes.\n\n",
                           ),
                           const TextSpan(
                             text: "Price is calculated with:\n",
                           ),
                           TextSpan(
-                              style: Theme.of(context).textTheme.titleSmall,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleSmall,
                               text: "outcome = price / volume * desiredVolume")
                         ],
                       ),
@@ -224,35 +242,50 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   RichText(
                     text: TextSpan(
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium,
                       children: [
                         const TextSpan(
                           text: 'Price per 250 units: ',
                         ),
                         TextSpan(
                           text: "${_displayString(250)}\n",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleSmall,
                         ),
                         const TextSpan(
                           text: 'Price per 300 units: ',
                         ),
                         TextSpan(
                           text: "${_displayString(300)}\n",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleSmall,
                         ),
                         const TextSpan(
                           text: 'Price per 500 units: ',
                         ),
                         TextSpan(
                           text: "${_displayString(500)}\n",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleSmall,
                         ),
                         const TextSpan(
                           text: 'Price per 1000 units: ',
                         ),
                         TextSpan(
                           text: "${_displayString(1000)}\n",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .titleSmall,
                         ),
                       ],
                     ),
